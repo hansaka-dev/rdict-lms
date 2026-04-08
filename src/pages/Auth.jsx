@@ -2,6 +2,9 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
+// 1. පින්තූරය මෙතනින් Import කරගන්නවා
+import dumImg from '../assets/Images/dum.png';
+
 const STEPS = ['exam-year', 'auth-choice', 'auth-input', 'otp', 'otp-success', 'personal', 'more-info', 'academic', 'final'];
 
 // ── Defined OUTSIDE Auth to prevent remount on every keystroke ──
@@ -123,7 +126,8 @@ const Auth = () => {
 
             {/* ── Sidebar ── */}
             <div className="auth-sidebar">
-                <img src="/src/assets/Images/dum.png" alt="Ranishan" className="auth-sidebar-img" />
+                {/* 2. අර Import කරපු පින්තූරය (dumImg) මෙතනට යොදනවා */}
+                <img src={dumImg} alt="Ranishan" className="auth-sidebar-img" />
                 <div className="auth-sidebar-overlay"></div>
                 <div className="auth-sidebar-content">
                     <div className="auth-sidebar-logo">RDICT<span>.</span></div>

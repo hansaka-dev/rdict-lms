@@ -1,3 +1,15 @@
+// 1. මේ විදිහට පින්තූර සියල්ලම මුලින්ම Import කරගන්න ඕනේ
+import batch2028Img from './assets/Images/2026.png';
+import batch2027Img from './assets/Images/2027.png';
+import batch2026Img from './assets/Images/20281.png';
+
+import thumbLogicGates from './assets/Images/Tutorials/Logic Gates Seminar.png';
+import thumbNetworking from './assets/Images/Tutorials/Networking 1st.png';
+import thumbMindMap1 from './assets/Images/Tutorials/Mind map 1.png';
+import thumbMindMap2 from './assets/Images/Tutorials/Mind map 2.png';
+import thumbMCQ from './assets/Images/Tutorials/MCQ.png';
+import thumbPu from './assets/Images/Tutorials/pu.png';
+
 const localOverrides = (typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('rdict-admin-config') || '{}') : {});
 
 export const timetableConfig = localOverrides.timetableConfig || {
@@ -14,7 +26,7 @@ export const timetableConfig = localOverrides.timetableConfig || {
             title: '2028 නව කණ්ඩායම',
             emoji: '💜',
             description: 'දශකයකට ආසන්නව දරුවන් හොයන පංතියේ අසුනක් 🤍',
-            image: '/src/assets/Images/2026.png',
+            image: batch2028Img, // Import කරපු variable එක මෙතනට දුන්නා
             schedules: [
                 { institute: 'kegalle',   day: 'Monday',    time: '01:00 PM - 04:30 PM' },
                 { institute: 'kegalle',   day: 'Thursday',  time: '08:30 AM - 12:00 PM' },
@@ -30,7 +42,7 @@ export const timetableConfig = localOverrides.timetableConfig || {
             title: '2027 පුනරීක්ෂණ',
             emoji: '🔥',
             description: 'වැරදුන තැන් හදාගෙන අලුත් ගමනක් යන්න 🤍',
-            image: '/src/assets/Images/2027.png',
+            image: batch2027Img, // Import කරපු variable එක මෙතනට දුන්නා
             schedules: [
                 { institute: 'kegalle',   day: 'Sunday', time: '01:00 PM - 05:00 PM' },
                 { institute: 'ratnapura', day: 'Monday', time: '08:30 AM - 12:00 PM' },
@@ -43,7 +55,7 @@ export const timetableConfig = localOverrides.timetableConfig || {
             title: '2026 Paper Class',
             emoji: '🏆',
             description: 'අවසන් මොහොතේ ඉහළම ප්‍රතිඵලයක් කරා 🤍',
-            image: '/src/assets/Images/20281.png',
+            image: batch2026Img, // Import කරපු variable එක මෙතනට දුන්නා
             schedules: [
                 { institute: 'online',    day: 'Monday',    time: '07:00 PM - 09:30 PM', type: 'Theory' },
                 { institute: 'online',    day: 'Wednesday', time: '07:00 PM - 09:30 PM', type: 'Revision' },
@@ -89,10 +101,10 @@ export const siteStats = localOverrides.siteStats || {
 };
 
 export const youtubeVideos = localOverrides.youtubeVideos || [
-    { id: "bB35uFMWWuM", thumbnail: "/src/assets/Images/Tutorials/Logic Gates Seminar.png" },
-    { id: "aBuQ3BJwMrs", thumbnail: "/src/assets/Images/Tutorials/Networking 1st.png" },
-    { id: "QZPmSHSA3F8&t", thumbnail: "/src/assets/Images/Tutorials/Mind map 1.png" },
-    { id: "q2M6D-spkdY&t", thumbnail: "/src/assets/Images/Tutorials/Mind map 2.png" },
-    { id: "gO_Za8TEAkI", thumbnail: "/src/assets/Images/Tutorials/MCQ.png" },
-    { id: "3izzybaD6Q8", thumbnail: "/src/assets/Images/Tutorials/pu.png" }
+    { id: "bB35uFMWWuM", thumbnail: thumbLogicGates }, // String එක වෙනුවට Variable එක
+    { id: "aBuQ3BJwMrs", thumbnail: thumbNetworking },
+    { id: "QZPmSHSA3F8&t", thumbnail: thumbMindMap1 },
+    { id: "q2M6D-spkdY&t", thumbnail: thumbMindMap2 },
+    { id: "gO_Za8TEAkI", thumbnail: thumbMCQ },
+    { id: "3izzybaD6Q8", thumbnail: thumbPu }
 ];

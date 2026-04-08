@@ -1,4 +1,5 @@
 import React from 'react';
+import sirImage from '../assets/Images/Sir.jpg';
 
 const Teacher = () => {
   return (
@@ -35,7 +36,7 @@ const Teacher = () => {
               boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)',
             }}>
               <img
-                src="/src/assets/Images/Sir.jpg"
+                src={sirImage}
                 alt="Ranishan Dissanayake"
                 style={{ display: 'block', width: '100%', aspectRatio: '4/5', objectFit: 'cover' }}
               />

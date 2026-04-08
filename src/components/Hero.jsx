@@ -2,6 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { siteStats } from '../config';
 import './Hero.css';
 
+// 1. මෙන්න මේ විදිහට Images ටික ගමන් මල්ලට (Project එකට) Import කරගන්න ඕනේ.
+// (ඔයාගේ Components ෆෝල්ඩර් එක තියෙන තැන අනුව '../assets' කියන එක වෙනස් වෙන්න පුළුවන්)
+import robotImg from '../assets/Images/Robot.png';
+import normalImg from '../assets/Images/Normal.png';
+
 const PHRASES = [
     'Discussing all past papers of that lesson at the end of each lesson',
     'The ability to meet and discuss anything with the teacher personally',
@@ -65,7 +70,8 @@ const Hero = () => {
         }
     };
 
-    const teacherImgSrc = isGlitch ? '/src/assets/Images/Robot.png' : '/src/assets/Images/Normal.png';
+    // 2. දැන් කලින් Import කරපු Variables දෙක මේ විදිහට පාවිච්චි කරන්න
+    const teacherImgSrc = isGlitch ? robotImg : normalImg;
 
     return (
         <section id="home" className={`hero ${isGlitch ? 'hero--glitch' : ''}`}>

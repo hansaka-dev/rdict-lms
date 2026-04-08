@@ -1,30 +1,37 @@
 import React from 'react';
 import './Gallery.css';
 
+// Import images for production build stability
+import img1 from '../assets/Images/Gallery/2150888241.jpg';
+import img2 from '../assets/Images/Gallery/2149940874.jpg';
+import img3 from '../assets/Images/Gallery/2151043793.jpg';
+import img4 from '../assets/Images/Gallery/2151098172.jpg';
+import img5 from '../assets/Images/Gallery/WhatsApp Image 2026-02-03 at 6.11.55 PM.jpeg';
+
 const Gallery = () => {
     const galleryImages = [
         {
-            src: '/src/assets/Images/Gallery/2150888241.jpg',
+            src: img1,
             title: 'Modern Infrastructure',
             desc: 'State-of-the-art tech classrooms'
         },
         {
-            src: '/src/assets/Images/Gallery/2149940874.jpg',
+            src: img2,
             title: 'Dedicated Community',
             desc: 'Students fully engaged in ICT logic'
         },
         {
-            src: '/src/assets/Images/Gallery/2151043793.jpg',
+            src: img3,
             title: 'Interactive Theory',
             desc: 'Deep and clear explanations'
         },
         {
-            src: '/src/assets/Images/Gallery/2151098172.jpg',
+            src: img4,
             title: '100% Practical',
             desc: 'Hands-on coding experience'
         },
         {
-            src: '/src/assets/Images/Gallery/WhatsApp Image 2026-02-03 at 6.11.55 PM.jpeg',
+            src: img5,
             title: 'Award Ceremony',
             desc: 'Celebrating outstanding student results'
         }
