@@ -1,0 +1,134 @@
+.wall-section {
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.wall-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+/* MARQUEE TRACK */
+.wall-slider-container {
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 2rem 0;
+    position: relative;
+}
+
+/* Gradient Masks for smooth fading on edges */
+.wall-slider-container::before,
+.wall-slider-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 15vw;
+    z-index: 2;
+    pointer-events: none;
+}
+.wall-slider-container::before {
+    left: 0;
+    background: linear-gradient(to right, #0a0610, transparent);
+}
+.wall-slider-container::after {
+    right: 0;
+    background: linear-gradient(to left, #0a0610, transparent);
+}
+
+.wall-track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    animation: wall-scroll 25s linear infinite;
+    padding: 0 1rem;
+}
+
+.wall-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes wall-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 1rem)); } 
+}
+
+/* WALL CARDS */
+.wall-card {
+    width: 280px;
+    background: rgba(15, 10, 26, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+}
+
+.wall-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 15px 40px rgba(168, 85, 247, 0.2);
+}
+
+/* Golden/Purple Badge */
+.wall-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #a855f7, #ffd700);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 4px 15px;
+    border-radius: 100px;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.wall-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1.5rem auto;
+    border: 3px solid rgba(168, 85, 247, 0.4);
+    padding: 4px;
+    background: #0a0610;
+}
+
+.wall-name {
+    font-size: 1.3rem;
+    font-family: 'Outfit', sans-serif;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.wall-school {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+}
+
+.wall-zscore {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+}
+.wall-zscore span {
+    font-size: 0.8rem;
+    color: #c084fc;
+    text-transform: uppercase;
+}
+.wall-zscore strong {
+    font-size: 1.1rem;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+}

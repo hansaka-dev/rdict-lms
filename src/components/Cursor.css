@@ -1,0 +1,49 @@
+.cursor {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--primary, #A855F7);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 999999;
+    transform: translate(-50%, -50%);
+    /* Removed mix-blend-mode if it contradicts the brand styling */
+    transition: border-color 0.3s;
+}
+
+.cursor-follower {
+    width: 6px;
+    height: 6px;
+    background: var(--primary, #A855F7);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 999999;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.3s;
+}
+
+.glow-cursor {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.1), transparent 60%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 999; /* Put it behind UI elements but above deep background */
+    filter: blur(30px);
+}
+
+body, html {
+    cursor: none !important;
+}
+
+/* Hide fallback cursor for interactive elements to preserve the custom feel */
+a, button, input, select, textarea {
+    cursor: none !important;
+}

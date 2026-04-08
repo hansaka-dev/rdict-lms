@@ -1,0 +1,101 @@
+/* ── Expandable Flex Cards Gallery ── */
+.section-gallery {
+    padding: 6rem 0;
+    position: relative;
+    background: linear-gradient(180deg, var(--bg-dark), rgba(168, 85, 247, 0.02));
+}
+
+.gallery-head {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
+}
+
+.flex-gallery-container {
+    display: flex;
+    gap: 1.25rem;
+    height: 60vh;
+    min-height: 450px;
+    width: 100%;
+    margin-top: 3rem;
+}
+
+.flex-card {
+    flex: 1;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.02);
+    position: relative;
+    transition: flex 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.flex-card:hover {
+    flex: 4;
+    transform: translateY(-8px);
+}
+
+.flex-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: brightness(0.8);
+}
+
+.flex-gallery-container:hover .flex-card:not(:hover) img {
+    filter: brightness(0.3) grayscale(0.8);
+}
+
+.flex-card:hover img {
+    transform: scale(1.03);
+    filter: brightness(1.1);
+}
+
+.flex-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4) 60%, transparent);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s 0.2s, transform 0.4s 0.2s;
+    color: #fff;
+}
+
+.flex-card:hover .flex-card-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.flex-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.flex-card-desc {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 768px) {
+    .flex-gallery-container {
+        flex-direction: column;
+        height: 80vh;
+        gap: 1rem;
+    }
+    
+    .flex-card:hover {
+        flex: 5;
+    }
+}

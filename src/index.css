@@ -1,0 +1,403 @@
+/* --- Custom Purple Scrollbar --- */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0610;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #A855F7, #6D28D9);
+    border-radius: 10px;
+    border: 2px solid #0a0610;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #E9D5FF;
+}
+
+/* RE-USING THE CORE CSS FROM tutu/style.css */
+
+:root {
+    --primary: #A855F7;
+    --secondary: #E9D5FF;
+    --accent: #D8B4FE;
+    --bg-dark: #0F0715;
+    --bg-elevated: rgba(255, 255, 255, 0.07);
+    --bg-card: rgba(255, 255, 255, 0.05);
+    --border-glass: rgba(255, 255, 255, 0.1);
+    --border-glass-strong: rgba(168, 85, 247, 0.22);
+    --text-main: #FFFFFF;
+    --text-muted: #CBD5E1;
+    --text-muted-soft: #94A3B8;
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --space-section: clamp(4rem, 10vw, 7rem);
+    --space-gutter: clamp(1.5rem, 4vw, 2rem);
+    --prose-width: 65ch;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition: all 0.4s var(--ease-out);
+    --neon-glow: 0 0 20px rgba(168, 85, 247, 0.5);
+    --container: 1280px;
+    --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: auto;
+    font-size: 16px;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+body {
+    background-color: #0a0610;
+    background-image: linear-gradient(168deg,
+            #0a0610 0%,
+            #0f0718 22%,
+            #0c0814 48%,
+            #100a1a 72%,
+            #0a0610 100%);
+    min-height: 100vh;
+    font-family: 'Gemunu Libre', 'Abhaya Libre', 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    color: var(--text-main);
+    line-height: 1.65;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    
+    /* Disable Text Selection Globally */
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Re-enable selection specifically for inputs to not break forms */
+input, textarea {
+    -webkit-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+}
+
+
+.container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.glass-card {
+    background: rgba(15, 7, 21, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-glass-strong);
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 0.8rem 2.2rem;
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: var(--neon-glow);
+    transition: box-shadow 0.35s var(--ease-out), filter 0.35s var(--ease-out);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 14px 40px rgba(168, 85, 247, 0.65);
+    filter: brightness(1.1);
+}
+
+.section-heading {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.35rem, 3vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.22;
+    margin-bottom: 1.15rem;
+}
+
+.section-heading span {
+    background: linear-gradient(90deg, #A855F7, #E9D5FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.eyebrow {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.eyebrow span {
+    color: var(--primary);
+}
+
+.prose {
+    max-width: var(--prose-width);
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* ── Background Scene (ported from style.css) ── */
+.bg-scene {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bg-mesh-3d {
+    position: absolute;
+    left: -30%; right: -30%;
+    top: -10%; bottom: -40%;
+    transform-origin: 50% 40%;
+    transform: perspective(900px) rotateX(72deg) scale(1.15);
+    opacity: 0.3;
+    background-image:
+        linear-gradient(rgba(168, 85, 247, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.06) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 85% 65% at 50% 35%, black 15%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 35%, black 15%, transparent 72%);
+    animation: mesh-drift 90s linear infinite;
+}
+
+@keyframes mesh-drift {
+    from { transform: perspective(900px) rotateX(72deg) scale(1.15) translateY(0); }
+    to   { transform: perspective(900px) rotateX(72deg) scale(1.15) translateY(72px); }
+}
+
+.bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(75px);
+    pointer-events: none;
+    will-change: transform;
+}
+
+.bg-orb--1 {
+    width: min(75vw, 720px); height: min(75vw, 720px);
+    background: radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.45) 0%, transparent 68%);
+    top: -12%; left: -8%;
+    animation: orb-a 22s ease-in-out infinite;
+}
+
+.bg-orb--2 {
+    width: min(65vw, 600px); height: min(65vw, 600px);
+    background: radial-gradient(circle at 60% 50%, rgba(109, 40, 217, 0.35) 0%, transparent 65%);
+    bottom: -5%; right: -12%;
+    animation: orb-b 28s ease-in-out infinite;
+}
+
+.bg-orb--3 {
+    width: min(50vw, 480px); height: min(50vw, 480px);
+    background: radial-gradient(circle at 50% 50%, rgba(233, 213, 255, 0.12) 0%, transparent 70%);
+    top: 38%; left: 42%;
+    transform: translate(-50%, -50%);
+    animation: orb-c 18s ease-in-out infinite;
+}
+
+@keyframes orb-a {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(6%, 8%) scale(1.08); }
+}
+@keyframes orb-b {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-5%, -6%) scale(1.06); }
+}
+@keyframes orb-c {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+    50% { transform: translate(-50%, -52%) scale(1.12); opacity: 1; }
+}
+
+/* ── Stars drifting ── */
+.bg-stars {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image:
+        radial-gradient(1.5px 1.5px at 20px 30px, #eee, transparent),
+        radial-gradient(1px 1px at 40px 70px, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 50px 160px, #ddd, transparent),
+        radial-gradient(2px 2px at 100px 120px, #fff, transparent),
+        radial-gradient(1px 1px at 150px 60px, #ccc, transparent),
+        radial-gradient(1.5px 1.5px at 180px 140px, #eee, transparent);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    opacity: 0.09;
+    z-index: -2;
+    pointer-events: none;
+    animation: stars-drift 100s linear infinite;
+}
+
+@keyframes stars-drift {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-200px); }
+}
+
+/* ── Background glow ── */
+.bg-glow {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+        radial-gradient(ellipse 130% 70% at 50% -15%, rgba(120, 50, 200, 0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 90% 55% at 110% 85%, rgba(168, 85, 247, 0.14) 0%, transparent 52%),
+        radial-gradient(ellipse 70% 45% at -5% 60%, rgba(139, 92, 246, 0.1) 0%, transparent 48%);
+    pointer-events: none;
+}
+
+/* ── Pulse circuit lines ── */
+.bg-circuit {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.pulse-line {
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(168, 85, 247, 0.12), transparent);
+    animation: pulse-rise 8s ease-in-out infinite;
+}
+
+@keyframes pulse-rise {
+    0%   { transform: translateY(100%); opacity: 0; }
+    20%  { opacity: 1; }
+    80%  { opacity: 1; }
+}
+
+/* ── UNIVERSAL RESPONSIVE OVERRIDES (MOBILE & TABLET) ── */
+/* Ensures the entire landing page breaks down beautifully */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 2vw;
+    }
+    .hero-container {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding-top: 7rem;
+    }
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero-btns, .hero-stats-row {
+        justify-content: center;
+    }
+    .hero-image-wrapper {
+        align-items: center;
+        justify-content: center;
+        margin-top: 3rem;
+    }
+    .faq-layout {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .faq-left-panel {
+        position: relative;
+        top: 0;
+        text-align: center;
+    }
+    .faq-feature-list {
+        align-items: center;
+    }
+    .faq-deco-q {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --space-section: 4rem;
+    }
+    .section-heading {
+        font-size: clamp(2rem, 6vw, 2.5rem);
+    }
+    .eyebrow {
+        text-align: center;
+        display: block;
+    }
+    .prose {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Timetable Fixes */
+    .timetable-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+    .timetable-filters button {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    /* Auto-fit grids fine-tuning */
+    .features-grid, .timetable-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Global Card Padding tweak */
+    .glass-card, .feature-card {
+        padding: 1.5rem !important;
+    }
+    
+    /* Header/Nav tweaks */
+    .nav-container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-btns {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+    }
+    .hero-btns a {
+        width: 100%;
+        text-align: center;
+    }
+
+/* ── PREMIUM CONTINUOUS ANIMATED EMOJIS ── */
+@keyframes continuousEmojiBounce {
+    0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+    50% { transform: translateY(-5px) scale(1.1) rotate(5deg); }
+}
+
+.anim-emoji {
+    display: inline-block;
+    animation: continuousEmojiBounce 2s infinite ease-in-out;
+}
+    .btn-primary, .btn-secondary {
+        padding: 0.9rem 1.5rem;
+    }
+    .hero-stat strong {
+        font-size: 1.3rem;
+    }
+}

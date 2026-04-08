@@ -1,0 +1,288 @@
+/* ── SECTION & HEADER ── */
+.t-section {
+    padding: 6rem 0;
+    position: relative;
+    background: #06030a; 
+    overflow: hidden;
+}
+
+.t-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* ── TABS ── */
+.t-tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 2;
+}
+
+.t-tabs-container {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50px;
+    padding: 5px;
+    backdrop-filter: blur(20px);
+}
+
+.t-tab-btn {
+    position: relative;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 8px 18px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+    white-space: nowrap;
+}
+
+.t-tab-btn:hover {
+    color: #e2e8f0;
+}
+
+.t-tab-btn.active {
+    color: #fff;
+    font-weight: 600;
+}
+
+.t-tab-indicator {
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: -1;
+}
+
+/* ── GRID ── */
+.t-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    position: relative;
+    z-index: 2;
+    align-items: stretch;
+}
+
+@media (max-width: 1024px) { .t-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) {
+    .t-tabs-container {
+        width: 100%;
+        justify-content: center;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 4px;
+    }
+    .t-tabs-container::-webkit-scrollbar { display: none; }
+    .t-tab-btn { padding: 7px 12px; font-size: 0.78rem; }
+    .t-grid { grid-template-columns: 1fr; }
+}
+
+/* ── PREMIUM CARDS (Exact Replica of Design) ── */
+.t-card {
+    position: relative;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+    height: 100%;
+}
+
+.t-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.t-card-inner {
+    position: relative;
+    background: linear-gradient(180deg, #1b1625 0%, #110c18 100%);
+    border-radius: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── IMAGE SECTION ── */
+.t-card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 280px; /* Force image height constraint */
+    overflow: hidden;
+    background: radial-gradient(circle at center, rgba(168,85,247,0.1), transparent 70%);
+}
+
+.t-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    /* Soften the image slightly */
+    filter: contrast(1.1) brightness(0.9);
+}
+
+.t-card-image-fade {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 150px;
+    background: linear-gradient(to top, #110c18 0%, transparent 100%);
+}
+
+/* ── CONTENT SECTION ── */
+.t-card-content {
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+    margin-top: -30px; /* Pull text up into the fade */
+}
+
+.t-batch-badge h3 {
+    font-family: 'Noto Sans Sinhala', 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+}
+
+.t-batch-badge .anim-emoji {
+    font-size: 1.2rem;
+    margin-left: 5px;
+}
+
+.t-desc {
+    font-family: 'Noto Sans Sinhala', sans-serif;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+/* ── SCHEDULE DETAILS ── */
+.t-schedules {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    flex: 1;
+}
+
+.t-schedule-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 3px solid; /* Color assigned dynamically */
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s;
+}
+
+.t-schedule-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.t-day-badge {
+    font-size: 0.65rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px;
+    border: 1px solid; /* Color matches left border dynamically */
+    border-radius: 4px;
+    min-width: 60px;
+    text-align: center;
+}
+
+.t-schedule-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.t-time {
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.t-meta {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.t-type-tag {
+    color: #c084fc;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ── CARD FOOTER ── */
+.t-card-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 10px;
+}
+
+.primary-btn {
+    flex: 1;
+    background: #a855f7;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    font-family: 'Noto Sans Sinhala', 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+    transition: all 0.3s;
+}
+
+.primary-btn:hover {
+    background: #9333ea;
+    transform: translateY(-2px);
+}
+
+.whatsapp-btn {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+    width: 45px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.whatsapp-btn:hover {
+    background: #22c55e;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+}
