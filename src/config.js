@@ -77,7 +77,7 @@ export const socialConfig = localOverrides.socialConfig || {
 export const globalToggles = localOverrides.globalToggles || {
     chatbot: true,
     particles: true,
-    music: false
+    music: true
 };
 
 export const siteStats = localOverrides.siteStats || {

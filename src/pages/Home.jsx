@@ -102,7 +102,7 @@ const Home = () => {
 
                 <main id="main-content">
                     {/* Background Music Engine */}
-                    {globalToggles.music && <audio ref={audioRef} src={bgmAudio} loop />}
+                    <audio ref={audioRef} src={bgmAudio} loop style={{ display: 'none' }} />
 
                     <Hero />
                     <Timetable />
@@ -116,19 +116,6 @@ const Home = () => {
                     <Gallery />
                     <FAQ />
                 </main>
-
-                {/* Floating chat button */}
-                <div className="floating-chat-btn" style={{
-                    position: 'fixed', bottom: '2rem', right: '2rem',
-                    width: '60px', height: '60px', borderRadius: '50%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    zIndex: 900, cursor: 'pointer',
-                    background: 'var(--primary)', color: '#fff',
-                    boxShadow: '0 10px 30px rgba(168, 85, 247, 0.5)',
-                    transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-                }}>
-                    <i className="fa-solid fa-comment-dots" style={{ fontSize: '1.4rem' }}></i>
-                </div>
 
                 <Footer />
             </div>
