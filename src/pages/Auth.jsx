@@ -85,7 +85,7 @@ const SelectBox = ({ icon, id, value, onChange, children }) => (
 // Get Dynamic Batches from Config
 const BATCH_OPTIONS = timetableConfig.batches.map(b => ({
     id: b.id,
-    label: b.title || b.ttt || `Batch ${b.id}`,
+    label: b.ttt || b.title || `Batch ${b.id}`,
     emoji: b.emoji || '🎓'
 }));
 
