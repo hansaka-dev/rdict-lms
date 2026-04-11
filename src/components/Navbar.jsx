@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -7,6 +8,21 @@ const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // Auth context
+    const [user, setUser] = useState(null);
+    const [role, setRole] = useState('student');
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data } = await supabase.auth.getSession();
+            if (data?.session?.user) {
+                setUser(data.session.user);
+                setRole(data.session.user.user_metadata?.role || 'student');
+            }
+        };
+        fetchUser();
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -46,7 +62,11 @@ const Navbar = () => {
         setMobileMenuOpen(false); // Close mobile menu on click
         
         if (targetId === 'login') {
-            navigate('/login');
+            if (user) {
+                navigate(role === 'admin' ? '/admin' : '/dashboard');
+            } else {
+                navigate('/login');
+            }
             setMobileMenuOpen(false);
             return;
         }
@@ -89,13 +109,28 @@ const Navbar = () => {
                     
                     {/* Mobile Only Login Button inside menu */}
                     <div className="nav-cta-mobile">
-                        <button className="btn-primary" onClick={(e) => handleSmoothScroll(e, 'login')}>Login</button>
+                        <button className="btn-primary" onClick={(e) => handleSmoothScroll(e, 'login')}>
+                            {user ? 'Go to Dashboard' : 'Login'}
+                        </button>
                     </div>
                 </ul>
 
                 <div className="nav-right">
                     <div className="nav-cta">
-                        <button className="btn-primary" onClick={(e) => handleSmoothScroll(e, 'login')}>Login</button>
+                        {user ? (
+                            <div 
+                                style={{ 
+                                    width: '40px', height: '40px', borderRadius: '50%',
+                                    border: '2px solid #a855f7', padding: '2px', transition: '0.3s',
+                                    background: user.user_metadata?.avatar_url ? `url(${user.user_metadata.avatar_url}) center/cover` : 'linear-gradient(135deg, #a855f7, #6366f1)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700
+                                }}
+                            >
+                                {!user.user_metadata?.avatar_url && (user.user_metadata?.full_name ? user.user_metadata.full_name.charAt(0).toUpperCase() : 'S')}
+                            </div>
+                        ) : (
+                            <button className="btn-primary" onClick={(e) => handleSmoothScroll(e, 'login')}>Login</button>
+                        )}
                     </div>
                     
                     {/* Hamburger Icon */}

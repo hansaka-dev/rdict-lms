@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Supabase Comments</title>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .card { background: #1e293b; padding: 40px; border-radius: 12px; text-align: center; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        button { background: #38bdf8; color: #020617; border: none; padding: 15px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; margin-top: 20px;}
+        button:hover { background: #0ea5e9; transform: scale(1.05); }
+        .status { margin-top: 20px; color: #94a3b8; }
+        .success { color: #10b981; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🚀 Upload Dummy Comments to Supabase</h2>
+        <p>This will insert 5 dummy student reviews into your `reviews` table.</p>
+        <button id="uploadBtn">Upload Data Now</button>
+        <div id="status" class="status">Waiting...</div>
+    </div>
+
+    <script>
+        // Replace with your project details
+        const _supabaseUrl = 'https://ltbgwvoioienvzlqheyd.supabase.co';
+        const _supabaseAnonKey = 'sb_publishable_xH7QwKaNWIwrrvAciSAp-g_VRanY9bu';
+        
+        const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+
+        const dummyData = [
+            { name: "Kavindu Nimesh", email: "kavindu@gmail.com", batch: "2025 A/L", institute: "Online", comment: "Sir's logic is amazing! Network lesson was perfectly clear.", photoUrl: null, likes: 24 },
+            { name: "Nethmi Navodya", email: "nethmi@gmail.com", batch: "2024 A/L", institute: "Science Center Kegalle", comment: "ප්‍රායෝගික පන්ති වලදී ගොඩක් දේවල් ඉගෙන ගත්තා. රෙකමදාරු කරනවා!", photoUrl: null, likes: 18 },
+            { name: "Saman Kumara", email: "saman@gmail.com", batch: "2026 A/L", institute: "Nenik Ratnapura", comment: "Really changed the way I look at ICT. The LMS is top tier too.", photoUrl: null, likes: 11 },
+            { name: "Sachini", email: "sachini@gmail.com", batch: "2025 A/L", institute: "Indeepa Gampaha", comment: "පන්තියට ගොඩක් ස්තුතියි. නෝට්ස් ඉතාමත් පැහැදිලියි.", photoUrl: null, likes: 5 },
+            { name: "Dewmini", email: "dewmini@gmail.com", batch: "2024 A/L", institute: "Online", comment: "Online learning has never been this smooth and engaging.", photoUrl: null, likes: 32 }
+        ];
+
+        document.getElementById('uploadBtn').addEventListener('click', async () => {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = "Connecting to Supabase... Please wait ⏳";
+            
+            try {
+                const { data, error } = await supabaseClient.from('reviews').insert(dummyData);
+                
+                if (error) {
+                    throw error;
+                }
+                
+                statusDiv.innerHTML = "<span class='success'>✅ Successfully Uploaded 5 Reviews!</span><br/>You can now check your comments page.";
+            } catch (err) {
+                console.error(err);
+                statusDiv.innerHTML = `<span style='color: #ef4444'>❌ Error: ${err.message}.<br><br><b>Did you create the 'reviews' table in Supabase SQL editor?</b></span>`;
+            }
+        });
+    </script>
+</body>
+</html>

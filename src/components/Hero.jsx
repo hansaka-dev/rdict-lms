@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import { siteStats } from '../config';
 import './Hero.css';
 
@@ -16,9 +18,25 @@ const PHRASES = [
 ];
 
 const Hero = () => {
+    const navigate = useNavigate();
     const [isGlitch, setIsGlitch] = useState(false);
     const [twText, setTwText] = useState('');
     const twRef = useRef({ phraseIdx: 0, charIdx: 0, deleting: false });
+    
+    // Auth context
+    const [user, setUser] = useState(null);
+    const [role, setRole] = useState(null);
+
+    useEffect(() => {
+        const checkUser = async () => {
+            const { data } = await supabase.auth.getSession();
+            if (data?.session?.user) {
+                setUser(data.session.user);
+                setRole(data.session.user.user_metadata?.role || 'student');
+            }
+        };
+        checkUser();
+    }, []);
 
     useEffect(() => {
         let timeout;
@@ -70,6 +88,15 @@ const Hero = () => {
         }
     };
 
+    const handleLMSClick = (e) => {
+        e.preventDefault();
+        if (!user) {
+            navigate('/login');
+        } else {
+            navigate(role === 'admin' ? '/admin' : '/dashboard');
+        }
+    };
+
     // 2. දැන් කලින් Import කරපු Variables දෙක මේ විදිහට පාවිච්චි කරන්න
     const teacherImgSrc = isGlitch ? robotImg : normalImg;
 
@@ -95,7 +122,9 @@ const Hero = () => {
                         </p>
                         <div className="hero-btns">
                             <a href="#free-courses" className="btn-primary" onClick={(e) => handleSmoothScroll(e, 'free-courses')}>Explore Tutorials</a>
-                            <a href="#teacher" className="btn-secondary" onClick={(e) => handleSmoothScroll(e, 'teacher')}>Meet the Teacher</a>
+                            <button className="btn-secondary" onClick={handleLMSClick} style={{ cursor: 'pointer' }}>
+                                {user ? (role === 'admin' ? 'Admin Dashboard' : 'View LMS Dashboard') : 'Enter LMS / Sign In'}
+                            </button>
                         </div>
                         <div className="hero-stats-row">
                             <div className="hero-stat">

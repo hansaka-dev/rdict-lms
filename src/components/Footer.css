@@ -256,14 +256,12 @@
     font-size: 1.2rem;
     color: #94a3b8;
     letter-spacing: 1px;
-    transform: rotate(-2deg);
     line-height: 1;
     transition: transform 0.3s;
 }
 
 .dev-signature:hover {
     color: #d8b4fe;
-    transform: scale(1.05) rotate(0deg);
 }
 
 @media (max-width: 1024px) {

@@ -16,7 +16,7 @@ const Impact = () => {
                 <div className="impact-header" data-aos="fade-up">
                     <p className="eyebrow"><span>RDICT Impact</span> ප්‍රතිඵල</p>
                     <h2 className="section-heading">විශිෂ්ටත්වයේ <span>සංඛ්‍යාලේඛන</span></h2>
-                    <p className="prose mx-auto">
+                    <p className="prose mx-auto text-center">
                         වසර ගණනාවක අත්දැකීම් සමගින් ලංකාවේ වැඩිම ප්‍රතිඵල හිමිකරගත් තොරතුරු තාක්ෂණ පන්තිය.
                     </p>
                 </div>

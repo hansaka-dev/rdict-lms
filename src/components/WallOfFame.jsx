@@ -19,7 +19,7 @@ const WallOfFame = () => {
                 <div className="wall-header" data-aos="fade-up">
                     <p className="eyebrow"><span>Top Performers</span> 2024</p>
                     <h2 className="section-heading">විශිෂ්ටයින්ගේ <span>සමරුව</span></h2>
-                    <p className="prose mx-auto">
+                    <p className="prose mx-auto text-center">
                         ඉහළම ප්‍රතිඵල වාර්තා කළ RDICT හි විශිෂ්ඨතම දුවා දරුවන්.
                     </p>
                 </div>

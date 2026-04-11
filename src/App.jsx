@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Comments from './pages/Comments';
-import AdminPanel from './pages/AdminPanel';
 import Auth from './pages/Auth';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard'; // We will create this next
 import PremiumFeatures from './components/PremiumFeatures';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
 
@@ -39,10 +41,23 @@ function App() {
     <Router>
       <PremiumFeatures />
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/comments" element={<Comments />} />
-        <Route path="/st" element={<AdminPanel />} />
         <Route path="/login" element={<Auth />} />
+
+        {/* ── Protected Student Route ── */}
+        <Route element={<ProtectedRoute allowedRoles={['student']} />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+
+        {/* ── Protected Admin / Teacher Route ── */}
+        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Route>
+
+        {/* Fallback route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

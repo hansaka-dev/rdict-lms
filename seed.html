@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RDICT LMS — Bulk Data Seeder</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .container { background: #1e293b; border-radius: 20px; padding: 2.5rem; width: 680px; border: 1px solid rgba(168,85,247,0.2); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+  h1 { font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem; }
+  h1 span { color: #a855f7; }
+  p.sub { color: #64748b; margin-bottom: 1.5rem; font-size: 0.9rem; }
+  .section { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.06); }
+  .section h2 { font-size: 1rem; font-weight: 700; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 0.7rem; background: rgba(168,85,247,0.2); color: #d8b4fe; padding: 2px 8px; border-radius: 100px; }
+  .badge-green { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+  ul { list-style: none; font-size: 0.85rem; color: #94a3b8; line-height: 2; }
+  ul li::before { content: '↳ '; color: #a855f7; }
+  input { width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-size: 0.95rem; margin-bottom: 10px; }
+  input::placeholder { color: #475569; }
+  button { width: 100%; padding: 14px; background: #a855f7; color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; cursor: pointer; margin-top: 0.5rem; transition: 0.3s; }
+  button:hover:not(:disabled) { background: #9333ea; box-shadow: 0 0 20px rgba(168,85,247,0.4); }
+  button:disabled { background: #475569; cursor: not-allowed; }
+  #log { margin-top: 1.5rem; background: #0f172a; border-radius: 12px; padding: 1rem; font-size: 0.82rem; font-family: monospace; color: #94a3b8; min-height: 60px; max-height: 220px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05); white-space: pre-wrap; }
+  .ok { color: #10b981; } .err { color: #ef4444; } .info { color: #a855f7; } .warn { color: #f59e0b; }
+  #userInfo { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); border-radius: 10px; padding: 10px 14px; margin-bottom: 1rem; font-size: 0.85rem; color: #6ee7b7; display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>RDICT <span>LMS</span> Seeder</h1>
+  <p class="sub">Inserts test classes, lessons, live sessions, and an approved enrollment for your account.</p>
+
+  <!-- Login Box -->
+  <div id="loginBox">
+    <div class="section">
+      <h2>🔐 Login First <span class="badge">Required to create enrollment</span></h2>
+      <input type="email" id="emailInput" placeholder="Your RDICT account email" />
+      <input type="password" id="passInput" placeholder="Your password" />
+      <button onclick="doLogin()">Login & Continue</button>
+    </div>
+  </div>
+
+  <div id="userInfo">✅ Logged in as: <span id="userEmail"></span></div>
+
+  <div class="section">
+    <h2>📚 Classes <span class="badge">3 Classes</span></h2>
+    <ul>
+      <li>2026 ICT Theory Class — Rs. 2500/mo</li>
+      <li>2026 ICT Revision — Rs. 2000/mo</li>
+      <li>2026 ICT Theory + Revision Combo — Rs. 4000/mo</li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>🎬 Lessons <span class="badge">1 per Class</span></h2>
+    <ul>
+      <li>Unit 01: Introduction to Networks (v_AphRPZXMY)</li>
+      <li>Unit 01: Revision - Key Concepts (v_AphRPZXMY)</li>
+      <li>Unit 01: Full Syllabus Overview (v_AphRPZXMY)</li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>📡 Live Sessions <span class="badge">1 per Class</span></h2>
+    <ul>
+      <li>Theory Live — Zoom example link (tomorrow)</li>
+      <li>Revision Live — Zoom example link (tomorrow)</li>
+      <li>Combo Live — Zoom example link (tomorrow)</li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>✅ Approved Enrollment <span class="badge badge-green">1st Class — Auto Approved</span></h2>
+    <ul>
+      <li>Enrolls YOU in "2026 ICT Theory Class" with status: <strong style="color:#10b981">approved</strong></li>
+      <li>You can immediately test "View Lessons & Live" in the Dashboard</li>
+    </ul>
+  </div>
+
+  <button id="seedBtn" onclick="seed()" disabled>🔐 Login First to Seed</button>
+  <div id="log">Waiting for login…</div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://ltbgwvoioienvzlqheyd.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_xH7QwKaNWIwrrvAciSAp-g_VRanY9bu';
+  const { createClient } = supabase;
+  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let currentUserId = null;
+
+  const parseYouTubeId = (input) => {
+    if (!input) return '';
+    const trim = input.trim();
+    if (/^[a-zA-Z0-9_-]{11}$/.test(trim)) return trim;
+    const patterns = [/[?&]v=([a-zA-Z0-9_-]{11})/, /youtu\.be\/([a-zA-Z0-9_-]{11})/, /\/embed\/([a-zA-Z0-9_-]{11})/, /\/shorts\/([a-zA-Z0-9_-]{11})/];
+    for (const p of patterns) { const m = trim.match(p); if (m) return m[1]; }
+    return trim;
+  };
+
+  const log = (msg, cls = '') => {
+    const el = document.getElementById('log');
+    el.innerHTML += `<span class="${cls}">${msg}\n</span>`;
+    el.scrollTop = el.scrollHeight;
+  };
+
+  // Auto-detect existing session
+  db.auth.getSession().then(({ data: { session } }) => {
+    if (session) setLoggedIn(session.user);
+  });
+
+  async function doLogin() {
+    const email = document.getElementById('emailInput').value.trim();
+    const pass = document.getElementById('passInput').value;
+    if (!email || !pass) return alert('Enter your email and password');
+    const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+    if (error) return alert('Login failed: ' + error.message);
+    setLoggedIn(data.user);
+  }
+
+  function setLoggedIn(user) {
+    currentUserId = user.id;
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('userInfo').style.display = 'block';
+    document.getElementById('userEmail').textContent = user.email;
+    document.getElementById('seedBtn').disabled = false;
+    document.getElementById('seedBtn').textContent = '🚀 Insert All Dummy Data';
+    document.getElementById('log').innerHTML = '✅ Logged in! Click the button to seed.\n';
+  }
+
+  const VID = parseYouTubeId('https://www.youtube.com/watch?v=v_AphRPZXMY');
+  const THUMB = `https://i.ytimg.com/vi/${VID}/hqdefault.jpg`;
+  const LIVE_TIME = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+  const classData = [
+    { title: '2026 ICT Theory Class', description: 'Complete A/L ICT syllabus coverage with weekly tutes and notes.', price: 2500.00, type: 'Theory', badge: '2026 A/L', image_url: THUMB },
+    { title: '2026 ICT Revision', description: 'Rapid revision of all units. Perfect for exam preparation.', price: 2000.00, type: 'Revision', badge: '2026 A/L', image_url: THUMB },
+    { title: '2026 ICT Theory + Revision Combo', description: 'Best value package — Theory + Revision in one card.', price: 4000.00, type: 'Combo', badge: '2026 A/L', image_url: THUMB },
+  ];
+
+  const lessons = [
+    { title: 'Unit 01: Introduction to Networks', video_id: VID, duration: '1:02:15', order_index: 1 },
+    { title: 'Unit 01: Revision - Key Concepts', video_id: VID, duration: '45:30', order_index: 1 },
+    { title: 'Unit 01: Full Syllabus Overview', video_id: VID, duration: '1:15:00', order_index: 1 },
+  ];
+
+  const liveSessions = [
+    { title: 'Theory Live — Week 1', zoom_link: 'https://zoom.us/j/example123', start_time: LIVE_TIME, is_active: false },
+    { title: 'Revision Live — Session 1', zoom_link: 'https://zoom.us/j/example456', start_time: LIVE_TIME, is_active: false },
+    { title: 'Combo Live — Week 1', zoom_link: 'https://zoom.us/j/example789', start_time: LIVE_TIME, is_active: false },
+  ];
+
+  async function seed() {
+    if (!currentUserId) return alert('Please login first!');
+    document.getElementById('seedBtn').disabled = true;
+    document.getElementById('log').innerHTML = '';
+    log('⏳ Starting bulk seed…\n', 'info');
+
+    let firstClassId = null;
+
+    for (let i = 0; i < classData.length; i++) {
+      log(`Inserting class: "${classData[i].title}"…`);
+      const { data: cls, error: cErr } = await db.from('classes').insert([classData[i]]).select().single();
+      if (cErr) { log(`  ✗ Error: ${cErr.message}`, 'err'); continue; }
+      log(`  ✓ Class inserted (id: ${cls.id})`, 'ok');
+      if (i === 0) firstClassId = cls.id;
+
+      const { error: lErr } = await db.from('lessons').insert([{ ...lessons[i], class_id: cls.id }]);
+      if (lErr) log(`  ✗ Lesson error: ${lErr.message}`, 'err');
+      else log(`  ✓ Lesson inserted`, 'ok');
+
+      const { error: lvErr } = await db.from('live_sessions').insert([{ ...liveSessions[i], class_id: cls.id }]);
+      if (lvErr) log(`  ✗ Live session error: ${lvErr.message}`, 'err');
+      else log(`  ✓ Live session inserted`, 'ok');
+    }
+
+    // Insert APPROVED enrollment for first class so user can immediately test
+    if (firstClassId) {
+      log('\n✨ Creating approved enrollment for your account…', 'info');
+      const { error: enErr } = await db.from('enrollments').insert([{
+        user_id: currentUserId,
+        class_id: firstClassId,
+        slip_url: 'seeder-auto-approved',
+        status: 'approved'
+      }]);
+      if (enErr) log(`  ✗ Enrollment: ${enErr.message} (may already exist)`, 'warn');
+      else log(`  ✓ Enrollment created → STATUS: APPROVED ✅`, 'ok');
+    }
+
+    log('\n🎉 Done! Go to Dashboard → My Classes → click "View Lessons & Live" 🎬', 'ok');
+    document.getElementById('seedBtn').textContent = '✅ Done! Go test the Dashboard';
+  }
+</script>
+</body>
+</html>

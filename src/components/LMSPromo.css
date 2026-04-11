@@ -42,7 +42,7 @@
 }
 
 .lms-text h2 {
-    font-family: 'Abhaya Libre', 'Outfit', sans-serif;
+    font-family: 'Gemunu Libre', 'Abhaya Libre', 'Outfit', sans-serif;
     font-size: clamp(2.2rem, 5vw, 3.5rem);
     font-weight: 800;
     line-height: 1.1;
@@ -51,6 +51,7 @@
 .lms-text h2 span {
     background: linear-gradient(135deg, #c084fc, #a855f7);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

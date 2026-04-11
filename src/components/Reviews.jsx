@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import './Reviews.css';
 
 const Reviews = () => {
@@ -9,43 +10,22 @@ const Reviews = () => {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                // Firebase Firestore REST API URL
-                const projectId = "lunch-6ca9f";
-                const collectionName = "reviews";
-                // We use structured query to get ordered results by timestamp desc
-                const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:runQuery`;
+                const { data, error } = await supabase
+                    .from('reviews')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(30);
 
-                const queryBody = {
-                    structuredQuery: {
-                        from: [{ collectionId: collectionName }],
-                        orderBy: [{ field: { fieldPath: "timestamp" }, direction: "DESCENDING" }],
-                        limit: 30
-                    }
-                };
+                if (error) throw error;
 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    body: JSON.stringify(queryBody)
-                });
-
-                const data = await response.json();
-
-                if (data && Array.isArray(data)) {
-                    // Firestore REST API returns an array of objects with 'document' field
-                    const formattedReviews = data
-                        .filter(item => item.document) // Filter out empty results
-                        .map(item => {
-                            const fields = item.document.fields;
-                            return {
-                                name: fields.name?.stringValue || "Anonymous",
-                                batch: fields.batch?.stringValue || "RDICT Student",
-                                text: fields.text?.stringValue || fields.comment?.stringValue || "",
-                                stars: parseInt(fields.rating?.integerValue || "5"),
-                                initials: (fields.name?.stringValue || "A").charAt(0).toUpperCase()
-                            };
-                        })
-                        .filter(rev => rev.text !== ""); // Only show reviews with text
-
+                if (data) {
+                    const formattedReviews = data.map(fields => ({
+                        name: fields.name || "Anonymous",
+                        batch: fields.batch || "RDICT Student",
+                        text: fields.comment || "",
+                        stars: 5,
+                        initials: (fields.name || "A").charAt(0).toUpperCase()
+                    })).filter(rev => rev.text !== "");
                     setReviews(formattedReviews);
                 }
             } catch (error) {

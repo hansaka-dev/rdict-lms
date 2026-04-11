@@ -10,7 +10,7 @@ const FreeCourses = () => {
         <div className="section-title" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 3.5rem auto' }}>
           <p className="eyebrow"><span>Free Learning</span> YouTube</p>
           <h2 className="section-heading">Free <span>Masterclasses</span></h2>
-          <p className="prose">Catch up on recent seminars, revision sessions, and mind map discussions natively rendered via high performance HTML & CSS custom thumbnails.</p>
+          <p className="prose mx-auto text-center">Catch up on recent seminars, revision sessions, and mind map discussions natively rendered via high performance HTML & CSS custom thumbnails.</p>
         </div>
         
         <div className="video-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>

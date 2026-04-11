@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import Cursor from '../components/Cursor';
 import './Comments.css';
 
@@ -29,34 +30,24 @@ const Comments = () => {
 
     const fetchAllComments = async () => {
         try {
-            const projectId = "lunch-6ca9f";
-            const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:runQuery`;
-            const queryBody = {
-                structuredQuery: {
-                    from: [{ collectionId: "reviews" }],
-                    orderBy: [{ field: { fieldPath: "timestamp" }, direction: "DESCENDING" }]
-                }
-            };
-            const response = await fetch(url, { method: 'POST', body: JSON.stringify(queryBody) });
-            const data = await response.json();
-            if (data && Array.isArray(data)) {
-                const formatted = data
-                    .filter(item => item.document)
-                    .map(item => {
-                        const fields = item.document.fields;
-                        return {
-                            id: item.document.name.split('/').pop(),
-                            name: fields.name?.stringValue || "Anonymous",
-                            batch: fields.batch?.stringValue || "",
-                            institute: fields.institute?.stringValue || "",
-                            text: fields.text?.stringValue || fields.comment?.stringValue || "",
-                            photoURL: fields.photoURL?.stringValue || null,
-                            likes: parseInt(fields.likes?.integerValue || "0"),
-                            timestamp: fields.timestamp?.timestampValue || null
-                        };
-                    })
-                    .filter(c => c.text !== "");
-                setComments(formatted);
+            const { data, error } = await supabase
+                .from('reviews')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+            
+            if (data) {
+                setComments(data.map(fields => ({
+                    id: fields.id,
+                    name: fields.name || "Anonymous",
+                    batch: fields.batch || "",
+                    institute: fields.institute || "",
+                    text: fields.comment || "",
+                    photoURL: fields.photoUrl || null,
+                    likes: fields.likes || 0,
+                    timestamp: fields.created_at
+                })).filter(c => c.text !== ""));
             }
         } catch (error) { console.error(error); } finally { setLoading(false); }
     };
@@ -74,10 +65,12 @@ const Comments = () => {
         localStorage.setItem("likedMemos", JSON.stringify(newLikes));
         setComments(prev => prev.map(c => c.id === docId ? { ...c, likes: c.likes + 1 } : c));
         try {
-            const projectId = "lunch-6ca9f";
             const currentItem = comments.find(c => c.id === docId);
-            const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/reviews/${docId}?updateMask.fieldPaths=likes`;
-            await fetch(url, { method: 'PATCH', body: JSON.stringify({ fields: { likes: { integerValue: (currentItem.likes + 1).toString() } } }) });
+            const { error } = await supabase
+                .from('reviews')
+                .update({ likes: currentItem.likes + 1 })
+                .eq('id', docId);
+            if (error) throw error;
         } catch (e) { console.error(e); }
     };
 
@@ -99,24 +92,24 @@ const Comments = () => {
                 const imgData = await imgRes.json();
                 if (imgData.success) photoURL = imgData.data.url;
             }
-            const projectId = "lunch-6ca9f";
-            const docId = formData.email.trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
-            const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/reviews/${docId}`;
             const docData = {
-                fields: {
-                    name: { stringValue: formData.name }, email: { stringValue: formData.email }, batch: { stringValue: formData.batch },
-                    institute: { stringValue: formData.institute }, text: { stringValue: formData.comment }, photoURL: photoURL ? { stringValue: photoURL } : { nullValue: null },
-                    likes: { integerValue: "0" }, timestamp: { timestampValue: new Date().toISOString() }
-                }
+                name: formData.name,
+                email: formData.email,
+                batch: formData.batch,
+                institute: formData.institute,
+                comment: formData.comment,
+                photoUrl: photoURL || null,
+                likes: 0
             };
-            const res = await fetch(url, { method: 'PATCH', body: JSON.stringify(docData) });
-            if (res.ok) {
-                setFormData({ name: '', email: '', batch: '', institute: '', comment: '' });
-                setPhoto(null);
-                setIsModalOpen(false);
-                fetchAllComments();
-                alert("අදහස් පළ කිරීම සාර්ථකයි!");
-            }
+            
+            const { error } = await supabase.from('reviews').insert([docData]);
+            if (error) throw error;
+
+            setFormData({ name: '', email: '', batch: '', institute: '', comment: '' });
+            setPhoto(null);
+            setIsModalOpen(false);
+            fetchAllComments();
+            alert("අදහස් පළ කිරීම සාර්ථකයි!");
         } catch (error) { alert("දෝෂයකි: " + error.message); } finally { setIsSubmitting(false); }
     };
 

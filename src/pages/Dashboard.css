@@ -1,0 +1,312 @@
+/* Dashboard.css - RDICT Premium Light Theme with Purple Accents */
+
+.dash-layout-clean {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8fafc; /* Very light slate / white */
+    color: #1e293b;
+    font-family: 'Inter', 'Outfit', sans-serif;
+    position: relative;
+}
+
+/* ── Floating Light Glass Navbar ── */
+.dash-topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    
+    /* Fixed Floating Effect */
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 1280px;
+    background: rgba(255, 255, 255, 0.85); /* White glass */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(168, 85, 247, 0.15); /* Purple border */
+    border-radius: 100px;
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.08); /* Soft purple shadow */
+    z-index: 1000;
+}
+
+.dash-logo-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.dash-logo-nav span {
+    color: #a855f7;
+}
+
+.dash-nav-links {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.dash-nav-link {
+    padding: 8px 16px;
+    border-radius: 100px;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    position: relative;
+}
+
+.dash-nav-link:hover {
+    color: #a855f7;
+    background-color: rgba(168, 85, 247, 0.05);
+}
+
+.dash-nav-link.active {
+    color: #fff;
+    background-color: rgba(168, 85, 247, 0.9);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+}
+
+.dash-user-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.dash-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 5px 5px 5px 15px;
+    border-radius: 100px;
+    transition: 0.3s;
+    background: transparent;
+    border: 1px solid transparent;
+}
+
+.dash-user-info:hover {
+    background-color: rgba(168, 85, 247, 0.05);
+    border-color: rgba(168, 85, 247, 0.2);
+}
+
+.dash-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    object-fit: cover;
+}
+
+.dash-user-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1e293b;
+}
+
+/* ── Mobile Hamburger Menu ── */
+.mobile-dash-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #0f172a;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* ── Main Content Area ── */
+.dash-content {
+    flex: 1;
+    padding: 8rem 2rem 3rem 2rem; /* Increased top padding for fixed navbar */
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.dash-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.dash-section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.dash-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    padding: 8px 16px;
+    border-radius: 100px;
+    color: #64748b;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(168, 85, 247, 0.05);
+}
+
+.dash-filter select {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-weight: 600;
+    color: #a855f7;
+    cursor: pointer;
+}
+
+/* ── Light Card Grid ── */
+.classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.class-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(168, 85, 247, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.class-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 15px 35px rgba(168, 85, 247, 0.15);
+}
+
+.class-card-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    background: #f1f5f9;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.05);
+}
+
+.class-card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.class-badge {
+    align-self: flex-start;
+    background: rgba(168, 85, 247, 0.1);
+    color: #a855f7;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.class-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.class-desc {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.class-price {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #a855f7;
+    margin-bottom: 1rem;
+}
+
+.class-btn {
+    width: 100%;
+    padding: 12px;
+    background: #a855f7;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.class-btn:hover {
+    background: #9333ea;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+}
+
+/* ── Mobile Responsive ── */
+@media (max-width: 900px) {
+    .dash-nav-links {
+        display: none; 
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 1.5rem;
+        border-radius: 20px;
+        border: 1px solid rgba(168, 85, 247, 0.2);
+        box-shadow: 0 10px 40px rgba(168, 85, 247, 0.1);
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .dash-nav-links.mobile-open {
+        display: flex;
+    }
+
+    .mobile-dash-toggle {
+        display: block;
+    }
+
+    .dash-topnav {
+        padding: 0.8rem 1rem;
+        top: 10px;
+        width: 90%;
+    }
+    
+    .dash-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .dash-content {
+        padding: 3rem 1rem;
+    }
+}

@@ -1,7 +1,7 @@
 // 1. මේ විදිහට පින්තූර සියල්ලම මුලින්ම Import කරගන්න ඕනේ
-import batch2028Img from './assets/Images/2026.png';
+import batch2028Img from './assets/Images/2028.png';
 import batch2027Img from './assets/Images/2027.png';
-import batch2026Img from './assets/Images/20281.png';
+import batch2026Img from './assets/Images/2026.png';
 
 import thumbLogicGates from './assets/Images/Tutorials/Logic Gates Seminar.png';
 import thumbNetworking from './assets/Images/Tutorials/Networking 1st.png';
@@ -23,6 +23,7 @@ export const timetableConfig = localOverrides.timetableConfig || {
     batches: [
         {
             id: '2028',
+            ttt: '2028',
             title: '2028 නව කණ්ඩායම',
             emoji: '💜',
             description: 'දශකයකට ආසන්නව දරුවන් හොයන පංතියේ අසුනක් 🤍',
@@ -39,6 +40,7 @@ export const timetableConfig = localOverrides.timetableConfig || {
         },
         {
             id: '2027',
+            ttt: '2027',
             title: '2027 පුනරීක්ෂණ',
             emoji: '🔥',
             description: 'වැරදුන තැන් හදාගෙන අලුත් ගමනක් යන්න 🤍',
@@ -52,6 +54,7 @@ export const timetableConfig = localOverrides.timetableConfig || {
         },
         {
             id: '2026',
+            ttt: '2026',
             title: '2026 Paper Class',
             emoji: '🏆',
             description: 'අවසන් මොහොතේ ඉහළම ප්‍රතිඵලයක් කරා 🤍',
@@ -75,8 +78,8 @@ export const timetableConfig = localOverrides.timetableConfig || {
 };
 
 export const contactConfig = localOverrides.contactConfig || {
-    hotline: "077 123 4567",
-    email: "info@rdict.lk"
+    hotline: "0768943333",
+    email: "rdictadmin@gmail.com"
 };
 
 export const socialConfig = localOverrides.socialConfig || {
@@ -101,10 +104,10 @@ export const siteStats = localOverrides.siteStats || {
 };
 
 export const youtubeVideos = localOverrides.youtubeVideos || [
-    { id: "bB35uFMWWuM", thumbnail: thumbLogicGates }, // String එක වෙනුවට Variable එක
+    { id: "bB35uFMWWuM", thumbnail: thumbLogicGates }, 
     { id: "aBuQ3BJwMrs", thumbnail: thumbNetworking },
-    { id: "QZPmSHSA3F8&t", thumbnail: thumbMindMap1 },
-    { id: "q2M6D-spkdY&t", thumbnail: thumbMindMap2 },
+    { id: "QZPmSHSA3F8", thumbnail: thumbMindMap1 },
+    { id: "q2M6D-spkdY", thumbnail: thumbMindMap2 },
     { id: "gO_Za8TEAkI", thumbnail: thumbMCQ },
     { id: "3izzybaD6Q8", thumbnail: thumbPu }
 ];

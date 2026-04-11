@@ -43,7 +43,7 @@ const Gallery = () => {
                 <div className="gallery-head">
                     <p className="eyebrow"><span>Environment</span> Our Classes</p>
                     <h2 className="section-heading">Classroom <span>Gallery</span></h2>
-                    <p className="prose">Explore the modern infrastructure, smart classrooms, and the vibrant student community at RDICT.</p>
+                    <p className="prose mx-auto text-center">Explore the modern infrastructure, smart classrooms, and the vibrant student community at RDICT.</p>
                 </div>
                 <div className="flex-gallery-container">
                     {galleryImages.map((img, index) => (
