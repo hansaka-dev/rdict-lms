@@ -56,9 +56,13 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
     const [currentTime, setCurrentTime] = useState(resumeTime);
     const [warned, setWarned] = useState(false);
     const [watermarkPos, setWatermarkPos] = useState({ top: '20%', left: '10%' });
+    const [hasStarted, setHasStarted] = useState(false);
 
     // ── Load YouTube IFrame API ──────────────────────────────────────────
     useEffect(() => {
+        const isValidYTId = /^[a-zA-Z0-9_-]{11}$/.test(videoId);
+        if (!isValidYTId) return; // Do not load API if the video ID is completely invalid
+
         const loadAPI = () => {
             if (window.YT && window.YT.Player) {
                 initPlayer();
@@ -74,13 +78,13 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
             playerRef.current = new window.YT.Player(playerDivId.current, {
                 videoId,
                 playerVars: {
-                    autoplay: 1,
+                    autoplay: 0,
                     controls: 0,          // Hide ALL YouTube controls
                     modestbranding: 1,    // Suppress YouTube logo
                     rel: 0,              // No related videos
                     showinfo: 0,         // No title bar
                     iv_load_policy: 3,   // No annotations
-                    fs: 0,               // Disable YT native fullscreen button (we handle it)
+                    fs: 0,               // Disable YT native fullscreen button
                     disablekb: 1,        // Disable YT keyboard shortcuts
                     start: Math.floor(resumeTime),
                     enablejsapi: 1,
@@ -90,11 +94,8 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
                     onReady: (e) => {
                         setPlayerReady(true);
                         setDuration(e.target.getDuration());
-                        e.target.playVideo();
-                        setIsPlaying(true);
-                        // Request fullscreen immediately
-                        requestFS();
-                        startTicker(e.target);
+                        // Removed auto playVideo and requestFS due to strict browser autoplay policies
+                        // The user will click the play button to start the video.
                     },
                     onStateChange: (e) => {
                         setIsPlaying(e.data === window.YT.PlayerState.PLAYING);
@@ -166,16 +167,37 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
         if (tickerRef.current) clearInterval(tickerRef.current);
     };
 
-    // ── PrintScreen Warning ──────────────────────────────────────────────
+    // ── DevTools & PrintScreen Security Blocking ──────────────────────────
     useEffect(() => {
-        const handleKey = (e) => {
+        const handleKeyDown = (e) => {
+            // Block F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U
+            if (
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c')) ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) ||
+                (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+            ) {
+                e.preventDefault();
+                setWarned(true);
+                setTimeout(() => setWarned(false), 5000);
+            }
+        };
+
+        const handleKeyUp = (e) => {
             if (e.key === 'PrintScreen') {
                 setWarned(true);
                 setTimeout(() => setWarned(false), 5000);
             }
         };
-        window.addEventListener('keyup', handleKey);
-        return () => window.removeEventListener('keyup', handleKey);
+
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+        
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+        };
     }, []);
 
     // ── Floating Watermark — moves every 8s as anti-screen-record deterrent ──
@@ -191,9 +213,13 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
 
     // ── Custom Controls ──────────────────────────────────────────────────
     const togglePlay = () => {
-        if (!playerRef.current) return;
-        if (isPlaying) { playerRef.current.pauseVideo(); }
-        else { playerRef.current.playVideo(); }
+        if (!playerRef.current || !playerRef.current.getPlayerState) return;
+        const state = playerRef.current.getPlayerState();
+        if (state === window.YT.PlayerState.PLAYING) { 
+            playerRef.current.pauseVideo(); 
+        } else { 
+            playerRef.current.playVideo(); 
+        }
     };
 
     const seek = (e) => {
@@ -215,6 +241,21 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
 
     const progress = duration ? (currentTime / duration) * 100 : 0;
 
+    const isValidYTId = /^[a-zA-Z0-9_-]{11}$/.test(videoId);
+
+    if (!isValidYTId) {
+        return (
+            <div style={{
+                position: 'relative', width: '100%', height: '100%', background: '#0a0a0a', 
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#94a3b8'
+            }}>
+                <i className="fa-solid fa-video-slash" style={{ fontSize: '4rem', marginBottom: '15px', color: '#334155' }}></i>
+                <h3 style={{ margin: 0, color: '#f1f5f9', fontWeight: 600 }}>Invalid Video Link</h3>
+                <p style={{ marginTop: '8px', fontSize: '0.9rem' }}>The video ID or URL provided for this lesson is invalid.</p>
+            </div>
+        );
+    }
+
     return (
         <div
             ref={containerRef}
@@ -223,7 +264,7 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
                 position: 'relative',
                 width: '100%',
                 height: '100%',
-                background: '#000',
+                background: '#0a0a0a',
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
                 display: 'flex',
@@ -243,10 +284,37 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
 
             {/* YouTube IFrame (invisible controls) */}
             <div
-                style={{ flex: 1, position: 'relative' }}
+                style={{ flex: 1, position: 'relative', overflow: 'hidden' }}
                 onContextMenu={(e) => e.preventDefault()}
             >
                 <div id={playerDivId.current} style={{ width: '100%', height: '100%' }} />
+
+                {/* ── Custom Thumbnail Overlay (Hides YouTube UI) ── */}
+                {!hasStarted && (
+                    <div
+                        onClick={() => {
+                            setHasStarted(true);
+                            if (playerRef.current && playerRef.current.playVideo) {
+                                playerRef.current.playVideo();
+                            }
+                        }}
+                        style={{
+                            position: 'absolute', inset: 0, zIndex: 50,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                            background: '#000'
+                        }}
+                    >
+                        <img 
+                            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} 
+                            onError={(e) => { e.target.onerror = null; e.target.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`; }}
+                            style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }}
+                            alt="Thumbnail"
+                        />
+                        <div style={{ position: 'relative', zIndex: 51, width: '80px', height: '80px', background: 'rgba(168, 85, 247, 0.9)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(168,85,247,0.5)' }}>
+                            <i className="fa-solid fa-play" style={{ color: '#fff', fontSize: '2.5rem', marginLeft: '8px' }}></i>
+                        </div>
+                    </div>
+                )}
 
                 {/* Anti-inspect overlay */}
                 <div
@@ -257,6 +325,17 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
                         pointerEvents: 'none',
                     }}
                 />
+
+                {/* ── Top/Bottom Masks to Destroy YouTube Forced Branding (Title/Logos) ── */}
+                {!isPlaying && hasStarted && (
+                    <>
+                        {/* Top Mask - Hides Video Title and Channel Avatar */}
+                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '90px', background: '#0a0a0a', zIndex: 14, pointerEvents: 'none' }} />
+                        
+                        {/* Bottom Mask - Hides 'Watch on YouTube' and YouTube Watermarks */}
+                        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '70px', background: '#0a0a0a', zIndex: 14, pointerEvents: 'none' }} />
+                    </>
+                )}
 
                 {/* ── Floating Identity Watermark ── */}
                 {(userName || userEmail) && (
@@ -343,8 +422,16 @@ const ProtectedVideoPlayer = ({ videoId: rawVideoId, title = "Lesson", resumeTim
                     {/* Title */}
                     <span style={{ color: '#94a3b8', fontSize: '0.8rem', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{title}</span>
 
+                    <button
+                        onClick={requestFS}
+                        style={{ background: 'none', border: 'none', color: '#fff', fontSize: '1.1rem', cursor: 'pointer', marginLeft: '10px' }}
+                        title="Full Screen"
+                    >
+                        <i className="fa-solid fa-expand"></i>
+                    </button>
+
                     {/* Shield badge */}
-                    <span style={{ color: '#a855f7', fontSize: '0.8rem' }}>
+                    <span style={{ color: '#a855f7', fontSize: '0.8rem', marginLeft: '15px' }}>
                         <i className="fa-solid fa-shield-halved" style={{ marginRight: '4px' }}></i> Protected
                     </span>
                 </div>

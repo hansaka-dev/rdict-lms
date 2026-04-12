@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RDICT LMS - පද්ධති වාර්තාව</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+Sinhala:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #a855f7;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans Sinhala', sans-serif;
+            background: #e2e8f0;
+            color: var(--dark);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .a4-page {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto 20px auto;
+            padding: 20mm;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .a4-page { 
+                box-shadow: none; 
+                margin: 0; 
+                width: 100%; 
+                height: auto;
+                min-height: 0;
+                padding: 0;
+                page-break-after: auto;
+            }
+            .page-break { page-break-after: always; }
+            .feature-box, .tech-card, h2 { 
+                page-break-inside: avoid; 
+                break-inside: avoid; 
+            }
+            @page { 
+                margin: 15mm; 
+                size: a4 portrait;
+            }
+        }
+
+        h1, h2, h3 { color: var(--dark); margin-top: 0; }
+        
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 250mm;
+            text-align: center;
+        }
+        
+        .logo-text {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .logo-text span { color: var(--primary); }
+        
+        .cover-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .cover-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+            color: var(--primary);
+            border-bottom: 3px solid var(--light);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .tech-card {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .tech-icon {
+            font-size: 2rem;
+            color: var(--secondary);
+            width: 50px;
+            text-align: center;
+        }
+
+        p { line-height: 1.6; color: #334155; }
+        ul { line-height: 1.6; padding-left: 20px; color: #334155; }
+        li { margin-bottom: 8px; }
+
+        .feature-box {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .feature-box h3 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-box.student { border-left-color: var(--success); }
+        .feature-box.security { border-left-color: #f59e0b; }
+
+        .mock-ui {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            border: 1px solid #e2e8f0;
+            font-family: monospace;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        .mock-ui i {
+            font-size: 2.5rem;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .highlight { font-weight: 600; color: var(--dark); }
+
+    </style>
+</head>
+<body>
+
+    <!-- COVER PAGE -->
+    <div class="a4-page cover-page">
+        <div class="logo-text">RDICT<span>.</span> LMS</div>
+        <div class="cover-title">පද්ධති විශ්ලේෂණ වාර්තාව</div>
+        <div class="cover-subtitle">සම්පූර්ණ පද්ධති ක්‍රියාකාරිත්වය සහ තාක්ෂණික වාර්තාව</div>
+        
+        <div style="margin-top: auto; padding-top: 50px; text-align: center; color: var(--gray);">
+            <p><strong>By:</strong> Hansaka P. Fernando.</p>
+            <p><strong>දිනය:</strong> 2026</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+
+    <!-- PAGE 1: Intro & Tech -->
+    <div class="a4-page">
+        <h2 class="section-title"><i class="fa-solid fa-circle-info"></i> 1. හැඳින්වීම</h2>
+        <p>
+            RDICT LMS යනු ගුරුවරුන්ට සහ සිසුන්ට අන්තර්ජාලය හරහා සහ භෞතිකව (Physical) පන්ති පැවැත්වීමට සහ අධ්‍යාපන කටයුතු කළමනාකරණය කිරීමට සාදන ලද අති නවීන Learning Management System එකකි (අධ්‍යාපන කළමනාකරණ පද්ධතියකි).
+            මෙමගින් පන්ති ගාස්තු අය කිරීම්, වීඩියෝ පාඩම්, සජීවී (Zoom) පන්ති, නිබන්ධන (PDF) ලබා දීම සහ සිසුන්ගේ ප්‍රගතිය (Leaderboard & Marks) බැලීම ඉතාමත් පහසුවෙන් සිදු කළ හැක. 
+            පද්ධතිය සම්පූර්ණයෙන්ම ආරක්ෂිත වන අතර වීඩියෝ හොරෙන් බාගත කිරීම් වැළැක්වීමට විශේෂ ආරක්ෂිත ක්‍රමවේද භාවිතා කර ඇත.
+        </p>
+
+        <h2 class="section-title"><i class="fa-solid fa-microchip"></i> 2. භාවිතා කළ තාක්ෂණයන් (Technology Stack)</h2>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <i class="fa-brands fa-react tech-icon"></i>
+                <div>
+                    <strong>React JS & Vite</strong>
+                    <br><span style="font-size: 0.85rem; color: var(--gray);">අති වේගවත් Frontend නිර්මාණය සඳහා.</span>
+                </div>
+            </div>
+            <div class="tech-card">
+                <i class="fa-solid fa-database tech-icon"></i>
+                <div>
+                    <strong>Supabase (BaaS)</strong>
+                    <br><span style="font-size: 0.85rem; color: var(--gray);">දත්ත ගබඩාව (Database), User Authentication සහ Payment Slips ගබඩා කිරීම සඳහා.</span>
+                </div>
+            </div>
+            <div class="tech-card">
+                <i class="fa-brands fa-google drive tech-icon"></i>
+                <div>
+                    <strong>Google Apps Script / Drive API</strong>
+                    <br><span style="font-size: 0.85rem; color: var(--gray);">නිබන්ධන (PDF) ආරක්ෂිතව ගබඩා කිරීම සඳහා.</span>
+                </div>
+            </div>
+            <div class="tech-card">
+                <i class="fa-solid fa-image tech-icon"></i>
+                <div>
+                    <strong>ImgBB API</strong>
+                    <br><span style="font-size: 0.85rem; color: var(--gray);">පන්ති වල Thumbnails සහ Profile පින්තූර ගබඩා කිරීම.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- PAGE 2: Admin Features -->
+    <div class="a4-page">
+        <h2 class="section-title"><i class="fa-solid fa-crown"></i> 3. පරිපාලක (Admin) සඳහා ඇති පහසුකම්</h2>
+        <p>Admin Dashboard එක මගින් මුළු පද්ධතියම පාලනය කිරීමට Admin හට සම්පූර්ණ බලය ලබා දී ඇත. Admin Panel එක ප්‍රධාන කොටස් කිහිපයකින් සමන්විත වේ:</p>
+
+        <div class="feature-box">
+            <h3><i class="fa-solid fa-border-all" style="color: var(--primary);"></i> 1. Overview (සමස්ථ තොරතුරු)</h3>
+            <p>මුළු සිසුන් ගණන, පන්ති ගණන, Pending Payments (අනුමත කිරීමට ඇති ගෙවීම්) සජීවීව දැකගත හැක.</p>
+            <div class="mock-ui">
+                <i class="fa-solid fa-chart-pie"></i>
+                [සමස්ථ පද්ධතියේ සාරාංශය පෙන්වන අලංකාර Dashboard පෙනුම]
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <h3><i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i> 2. Classes (ප්‍රධාන පන්ති නිර්මාණය)</h3>
+            <p>නව පන්ති (උදා: 2026 ICT Theory) නිර්මාණය කිරීම. මෙහිදී පන්තියේ නම, මාසික ගාස්තුව, පන්තිය අදාළ වන Batch එක සහ ආකර්ෂණීය Thumbnail එකක් ඇතුලත් කළ හැක.</p>
+        </div>
+
+        <div class="feature-box">
+            <h3><i class="fa-solid fa-calendar-days" style="color: var(--primary);"></i> 3. Sessions (පාඩම් / සජීවී පන්ති එකතු කිරීම)</h3>
+            <p>ප්‍රධාන පන්තියක් යටතට අදාළ වන පරිදි සතිපතා දින වකවානු යටතේ Sessions එක් කළ හැක.</p>
+            <ul>
+                <li><span class="highlight">Recorded Videos:</span> YouTube හි Unlisted ලෙස ඇති වීඩියෝ වල ID එක පමණක් ලබා දීමෙන් පද්ධතිය තුළට ආරක්ෂිතව වීඩියෝව සම්බන්ධ කළ හැක.</li>
+                <li><span class="highlight">Live Zoom Links:</span> සජීවී පන්ති සඳහා Zoom link එක් කිරීම.</li>
+                <li><span class="highlight">PDF Uploads:</span> Google Drive හරහා නිබන්ධන ඍජුවම සිසුන්ට බාගත කරගැනීමට හැකි වන ලෙස upload කිරීම.</li>
+            </ul>
+        </div>
+
+        <div class="feature-box">
+            <h3><i class="fa-solid fa-check-double" style="color: var(--primary);"></i> 4. Payment Sweeps (ගෙවීම් සහ බැංකු රිසිට්පත් අනුමත කිරීම)</h3>
+            <p>සිසුන් විසින් upload කරන ලද බැංකු රිසිට්පත් (Payment Slips) පරීක්ෂා කර බැලිය හැක. නිවැරදි රිසිට්පතක් නම් අදාළ මාසය තෝරා "Approve" කළ හැක. එවිට <strong>ස්වයංක්‍රීයව</strong> එම ශිෂ්‍යයාට මාසයක් සඳහා (සහ අමතර සති 2ක සහන කාලයක්) අදාළ පන්තියට ප්‍රවේශය හිමි වේ.</p>
+        </div>
+        
+        <div class="feature-box">
+            <h3><i class="fa-solid fa-users" style="color: var(--primary);"></i> 5. User Management & Marks</h3>
+            <p>ලියාපදිංචි වී සිටින සියලුම සිසුන්ගේ පැතිකඩ, ඔවුන්ගේ XP Points, පාසල සහ වෙනත් තොරතුරු බැලීමට සහ පරිපාලනයට Admin ට හැකියාව ඇත. එසේම සිසුන්ගේ ප්‍රශ්න පත්‍ර ලකුණු (Marks) ඇතුලත් කිරීම ද මෙතැනින් සිදු කෙරේ.</p>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- PAGE 3: Student Features -->
+    <div class="a4-page">
+        <h2 class="section-title"><i class="fa-solid fa-user-graduate"></i> 4. ශිෂ්‍ය (Student) සඳහා ඇති පහසුකම්</h2>
+        <p>සිසුන්ට ඔවුන්ගේ Email සහ Password භාවිතා කර පද්ධතියට ලොග් විය හැක. Student Dashboard එක අතිශය ආකර්ෂණීය සහ පහසුවෙන් භාවිතා කළ හැකි අයුරින් නිර්මාණය කර ඇත.</p>
+
+        <div class="feature-box student">
+            <h3><i class="fa-solid fa-border-all" style="color: var(--success);"></i> 1. Dashboard & Quick Stats</h3>
+            <p>සිසුන්ට ඔවුන් ලබාගෙන ඇති XP ලකුණු (Gamification), ඔවුන් Leaderboard එකේ සිටින ස්ථානය සහ මෑතකදී ලබාගත් ප්‍රශ්න පත්‍ර ලකුණු ප්‍රතිඵල (Marks) Dashboard එකේ මුල් පිටුවෙන්ම දැකගත හැක.</p>
+        </div>
+
+        <div class="feature-box student">
+            <h3><i class="fa-solid fa-cart-shopping" style="color: var(--success);"></i> 2. Available Classes (පන්ති සඳහා ලියාපදිංචිය)</h3>
+            <p>තමාගේ Batch එකට අදාළ සියලුම පන්ති මෙහි පෙන්වයි. ගාස්තු ගෙවිය යුතු පන්ති සඳහා "Enroll" බොත්තම ඔබා බැංකු රිසිට්පත (Payment Slip) Upload කළ හැක. නොමිලේ (Free) ඇති පන්ති නම් එක ක්ලික් කිරීමකින් වහාම සම්බන්ධ විය හැක.</p>
+            <div class="mock-ui">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                [Payment Slip එක Upload කිරීමේ පහසු UI නිර්මාණය]
+            </div>
+        </div>
+
+        <div class="feature-box student">
+            <h3><i class="fa-solid fa-book-open" style="color: var(--success);"></i> 3. My Classes & Sessions (මගේ පන්ති සහ පාඩම්)</h3>
+            <p>සම්බන්ධ වී ඇති සහ Admin විසින් Payment Approve කර ඇති පන්ති මෙහි පෙන්වයි. පන්තියක් ඇතුලට ගිය පසු එහි ඇති සති වාර සටහන් (Sessions) පෙන්වයි.</p>
+            <ul>
+                <li><span class="highlight">Recorded Videos නැරඹීම:</span> වීඩියෝව සම්පූර්ණ තිරයේ (Fullscreen) නැරඹීම අනිවාර්ය කර ඇත. අතරමගදී නැවැත්වුවහොත් පසුව ආපසු එතැනින්ම නැරඹිය හැකි (Resume Support) තාක්ෂණය ඇතුලත්ය.</li>
+                <li><span class="highlight">Live Classes:</span> සජීවීව පන්ති තිබෙන දිනවලට Zoom ලින්ක් එක බොත්තමක් ලෙස පෙන්වයි.</li>
+                <li><span class="highlight">PDF Downloads:</span> Tute/PDF එකක් තිබේ නම් එක ක්ලික් එකකින් Download වේ.</li>
+            </ul>
+        </div>
+
+        <div class="feature-box student">
+            <h3><i class="fa-solid fa-trophy" style="color: var(--success);"></i> 4. Leaderboard & Profile</h3>
+            <p>වැඩිම ලකුණු ලබා ඇති සිසුන්ගේ ශ්‍රේණිගත කිරීම් (Leaderboard) බැලිය හැක. Profile එක හරහා සිසුන්ට තම Profile Picture එක (Avatar) මෙන්ම පාසලේ නම වෙනස් කර ගත හැක.</p>
+        </div>
+    </div>
+
+    <!-- PAGE 4: Security Features -->
+    <div class="a4-page">
+        <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> 5. පද්ධතියේ ආරක්ෂාව සහ වෙනත් විශේෂාංග (Security measures)</h2>
+        <p>LMS පද්ධතිය සඳහා ඉහළම ආරක්ෂාවක් සපයා ඇති අතර Intellectual Property (බුද්ධිමය දේපල) සුරැකීම පිළිබඳව විශේෂ අවධානයක් යොමු කර ඇත.</p>
+
+        <div class="feature-box security">
+            <h3><i class="fa-solid fa-video-slash" style="color: #f59e0b;"></i> 1. Anti-Piracy Video Player (වීඩියෝ සොරකම් වැළැක්වීම)</h3>
+            <ul>
+                <li>වීඩියෝ පාරිභෝගිකයාගේ (Student) <strong>Email එක, නම සහ දුරකථන අංකය මෙන්ම IP ලිපිනයද</strong> වීඩියෝ එක උඩින් (Watermark) පෙන්වයි.</li>
+                <li>එම Watermark එක වීඩියෝව පුරා තත්පර කීපයකින් කීපයකට ස්ථානය මාරු කරයි. එමගින් Screen Record කිරීම මගින් වුවද වීඩියෝව ලබා ගැනීම අධෛර්යමත් කරයි.</li>
+                <li>වීඩියෝ Player එක Full Screenshot (Full Screen) මාදිලියේ පමණක් වැඩ කිරීමට සකසා ඇති හෙයින් පිටතින් වෙනත් Recording Tools ක්‍රියාත්මක කිරීම අසීරු කරයි.</li>
+            </ul>
+        </div>
+
+        <div class="feature-box security">
+            <h3><i class="fa-solid fa-ban" style="color: #f59e0b;"></i> 2. Disable Right-Click / Developer Tools</h3>
+            <p>සිසුන්ට පද්ධතිය තුළ Right-click ක්‍රියා විරහිත කර ඇත (Disabled). එසේම Keyboard Shortcuts (F12, Ctrl+Shift+I ආදිය) මගින් කේතය (Code) බැලීම වළක්වා ඇත.</p>
+        </div>
+
+        <div class="feature-box security">
+            <h3><i class="fa-solid fa-file-contract" style="color: #f59e0b;"></i> 3. Recording Requests (භෞතික සිසුන් සඳහා පාලනය)</h3>
+            <p>Online සිසුන්ට පමණක් අදාළ පන්ති වල වාර්තාගත (Recorded) වීඩියෝ ඍජුවම පෙනෙන අතර Physical (භෞතික) සිසුන්ට ඒවා නැරඹීමට අවශ්‍ය නම් "Request Recording" හරහා Admin ට ඉල්ලීමක් යැවිය යුතුය. Admin Approve කළ පසු පමණක් වීඩියෝව Unlocked වේ. මෙය ඉතා සාර්ථක පාලන ක්‍රියාවලියකි.</p>
+        </div>
+        
+        <div class="feature-box security">
+            <h3><i class="fa-solid fa-clock-rotate-left" style="color: #f59e0b;"></i> 4. Auto-De-activation (ස්වයංක්‍රීයව අත්හිටුවීම)</h3>
+            <p>ශිෂ්‍යයෙකු ගෙවීම් කර ඇති මාසය සහ අදාළ සහන කාලය (2 Weeks Grace Period) අවසන් වූ පසු ස්වයංක්‍රීයවම පන්තිය සඳහා තිබූ ප්‍රවේශය "Expired" බවට පත් වී Video සහ Tute බැලීම අවහිර වේ. යළිත් Slip එකක් upload කර අනුමත වූ පසු පමණක් ප්‍රවේශය ලැබේ.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px; color: var(--gray);">
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 20px;">
+            <p><strong>- අවසානයි -</strong></p>
+        </div>
+    </div>
+
+</body>
+</html>

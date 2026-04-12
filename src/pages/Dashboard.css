@@ -310,3 +310,34 @@
         padding: 3rem 1rem;
     }
 }
+
+/* ── Class View Layout Responsive ── */
+.dash-class-view-layout {
+    display: flex;
+    gap: 1.5rem;
+    height: calc(100vh - 120px);
+}
+
+.dash-class-sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    background: #0f172a;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+@media (max-width: 900px) {
+    .dash-class-view-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 120px);
+    }
+    
+    .dash-class-sidebar {
+        width: 100%;
+        height: 300px; /* Constrain sidebar height on mobile so it doesn't push video offscreen if too many sessions */
+        flex-shrink: 0;
+    }
+}

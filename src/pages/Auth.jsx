@@ -85,7 +85,7 @@ const SelectBox = ({ icon, id, value, onChange, children }) => (
 // Get Dynamic Batches from Config
 const BATCH_OPTIONS = timetableConfig.batches.map(b => ({
     id: b.id,
-    label: b.ttt || b.title || `Batch ${b.id}`,
+    label: b.ttt || b.id,
     emoji: b.emoji || '🎓'
 }));
 
@@ -169,7 +169,7 @@ const Auth = () => {
             formData.append('image', file);
             
             // ImgBB API Key provided by user
-            const url = `https://api.imgbb.com/1/upload?key=d74f574e073a204f1546dd5d9cb692e4`;
+            const url = `https://api.imgbb.com/1/upload?key=c0ac744b3989122820b4ce302fc16cc4`;
             
             const res = await fetch(url, { method: 'POST', body: formData });
             const data = await res.json();
@@ -186,20 +186,7 @@ const Auth = () => {
         setIsUploadingImage(false);
     };
 
-    const handleForgotPassword = async () => {
-        if (!form.loginEmail) {
-            showToast("මුරපදය Reset කිරීමට පළමුව ඔබගේ Email ලිපිනය ඉහළින් ඇතුළත් කරන්න.", "error");
-            return;
-        }
-        setIsLoading(true);
-        const { error } = await supabase.auth.resetPasswordForEmail(form.loginEmail);
-        if (error) {
-            showToast(error.message);
-        } else {
-            showToast("Password reset link සබැඳිය ඔබගේ Email ලිපිනයට යවන ලදී!", "success");
-        }
-        setIsLoading(false);
-    }
+
 
     const next = async () => {
         if (!validate()) return;
@@ -372,10 +359,7 @@ const Auth = () => {
                                 <InputBox icon="fa-envelope" type="email" placeholder="student@rdict.lk" value={form.loginEmail} onChange={v => updateField('loginEmail', v)} />
                             </div>
                             <div className="auth-fgroup">
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                    <label style={{ marginBottom: 0 }}>Password</label>
-                                    <a href="#!" onClick={(e) => { e.preventDefault(); handleForgotPassword(); }} style={{ color: '#a855f7', fontSize: '0.85rem', textDecoration: 'none' }}>Forgot Password?</a>
-                                </div>
+                                <label style={{ marginBottom: 0 }}>Password</label>
                                 <PasswordBox value={form.loginPassword} onChange={v => updateField('loginPassword', v)} />
                             </div>
                             <button className="auth-btn-primary" onClick={handleLogin} disabled={isLoading}>
